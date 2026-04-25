@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Railway Trips</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body>
+
+  <nav>
+    <a class="brand" href="/">Railway Trips</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/stats">Statistics</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <h1 class="page-title">Find Your Trip</h1>
+    <p class="page-subtitle">Search and filter across all available train services</p>
+
+    <div class="filter-grid">
+
+      <div class="filter-card">
+        <form method="GET" action="/">
+          <label for="code">Trip Code</label>
+          <input type="text" id="code" name="code" placeholder="e.g. T101" value="{{ request.args.get('code', '') }}" />
+          <button class="btn" type="submit">Search</button>
+        </form>
+      </div>
+
+      <div class="filter-card">
+        <form method="GET" action="/">
+          <label>Route</label>
+          <input type="text" name="departure" placeholder="Departure station"
+            value="{{ request.args.get('departure', '') }}" />
+          <input type="text" name="arrival" placeholder="Arrival station"
+            value="{{ request.args.get('arrival', '') }}" />
+          <button class="btn" type="submit">Filter</button>
+        </form>
+      </div>
+
+      <div class="filter-card">
+        <form method="GET" action="/">
+          <label for="train_type">Train Type</label>
+          <input type="text" id="train_type" name="train_type" placeholder="e.g. Rapid, Express"
+            value="{{ request.args.get('train_type', '') }}" />
+          <button class="btn" type="submit">Filter</button>
+        </form>
+      </div>
+
+      <div class="filter-card">
+        <form method="GET" action="/">
+          <label for="max_price">Max Price (DA)</label>
+          <input type="number" id="max_price" name="max_price" placeholder="e.g. 1500"
+            value="{{ request.args.get('max_price', '') }}" />
+          <button class="btn" type="submit">Filter</button>
+        </form>
+      </div>
+
+    </div>
+
+    {% if trips %}
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Type</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Price (DA)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for trip in trips %}
+          <tr>
+            <td>
+              <a href="/trip/{{ trip.code }}">
+                <span class="badge badge-code">{{ trip.code }}</span>
+              </a>
+            </td>
+            <td>
+              <a href="/trip/{{ trip.code }}">
+                <span class="badge badge-{{ trip.type | lower }}">{{ trip.type }}</span>
+              </a>
+            </td>
+            <td><a href="/trip/{{ trip.code }}">{{ trip.departure }}</a></td>
+            <td><a href="/trip/{{ trip.code }}">{{ trip.arrival }}</a></td>
+            <td><a href="/trip/{{ trip.code }}">{{ trip.price }}</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">🔍</div>
+      <p>No trips found matching your filters.</p>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <footer>DSS Project · Railway Trip Management · UMBB FS</footer>
+</body>
+
+</html>
