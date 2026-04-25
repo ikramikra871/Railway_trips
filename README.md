@@ -20,14 +20,6 @@ The project includes:
 
 ---
 
-## Files
-
-* railway.xml
-* railway.xsl
-* app.py
-
----
-
 ## How to Run
 
 ### Python Application
