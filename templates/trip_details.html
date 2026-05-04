@@ -49,10 +49,17 @@
                 <span class="detail-value">{{ trip.type }}</span>
             </div>
 
+           
             <div class="detail-row">
                 <span class="detail-label">Price</span>
-                <span class="price-value">{{ trip.price }} <span
-                        style="font-size:0.9rem; color: var(--text-dim);">DA</span></span>
+                <span class="price-value">
+                    {% for cls in trip.classes %}
+                    <div>
+                        {{ cls.type }}: {{ cls.price }}
+                        <span style="font-size:0.9rem; color: var(--text-dim);">DA</span>
+                    </div>
+                    {% endfor %}
+                </span>
             </div>
 
         </div>
